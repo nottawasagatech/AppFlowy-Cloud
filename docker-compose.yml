@@ -1,5 +1,3 @@
-# Essential services for AppFlowy Cloud
-
 services:
   nginx:
     restart: on-failure
@@ -167,19 +165,6 @@ services:
         condition: service_healthy
       appflowy_cloud:
         condition: service_started
-
-  ai:
-    restart: on-failure
-    image: appflowyinc/appflowy_ai:${APPFLOWY_AI_VERSION:-latest}
-    environment:
-      - OPENAI_API_KEY=${AI_OPENAI_API_KEY}
-      - APPFLOWY_AI_SERVER_PORT=${AI_SERVER_PORT}
-      - APPFLOWY_AI_DATABASE_URL=${AI_DATABASE_URL}
-      - APPFLOWY_AI_REDIS_URL=${AI_REDIS_URL}
-    depends_on:
-      postgres:
-        condition: service_healthy
-
   appflowy_worker:
     restart: on-failure
     image: appflowyinc/appflowy_worker:${APPFLOWY_WORKER_VERSION:-latest}
