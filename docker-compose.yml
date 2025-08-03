@@ -9,7 +9,6 @@ services:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./nginx/ssl/certificate.crt:/etc/nginx/ssl/certificate.crt
       - ./nginx/ssl/private_key.key:/etc/nginx/ssl/private_key.key
-
   # You do not need this if you have configured to use your own s3 file storage
   minio:
     restart: on-failure
@@ -21,7 +20,6 @@ services:
     command: server /data --console-address ":9001"
     volumes:
       - minio_data:/data
-
   postgres:
     restart: on-failure
     image: pgvector/pgvector:pg16
@@ -37,11 +35,9 @@ services:
       retries: 12
     volumes:
       - postgres_data:/var/lib/postgresql/data
-
   redis:
     restart: on-failure
     image: redis
-
   gotrue:
     restart: on-failure
     build:
@@ -107,7 +103,6 @@ services:
       # SAML 2.0 OAuth config
       - GOTRUE_SAML_ENABLED=${GOTRUE_SAML_ENABLED}
       - GOTRUE_SAML_PRIVATE_KEY=${GOTRUE_SAML_PRIVATE_KEY}
-
   appflowy_cloud:
     restart: on-failure
     environment:
@@ -147,7 +142,6 @@ services:
     depends_on:
       gotrue:
         condition: service_healthy
-
   admin_frontend:
     restart: on-failure
     build:
@@ -194,7 +188,6 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-
   appflowy_web:
     restart: on-failure
     image: appflowyinc/appflowy_web:${APPFLOWY_WEB_VERSION:-latest}
